@@ -223,7 +223,7 @@ const box = document.querySelector(".about .ph"); if (!box) return;
 const list = FOTOLAR.map(f => f.src); let i = 0, cur = null;
 function show(n){
 const img = new Image(); img.decoding = "async"; img.alt = "nd.kadraj fotoğraf"; img.className = "slide";
-img.onload = () => { box.classList.remove("empty"); box.appendChild(img); requestAnimationFrame(() => requestAnimationFrame(() => img.classList.add("on"))); if (cur) { const old = cur; old.classList.remove("on"); setTimeout(() => old.remove(), 1300); } cur = img; };
+img.onload = () => { box.classList.remove("empty"); box.appendChild(img); requestAnimationFrame(() => requestAnimationFrame(() => img.classList.add("on"))); if (cur) { const old = cur; setTimeout(() => old.remove(), 1400); } cur = img; };
 img.onerror = () => { list.splice(n, 1); if (list.length) { i = n % list.length; show(i); } };
 img.src = list[n];
 }
