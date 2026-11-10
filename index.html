@@ -195,22 +195,19 @@ Nişan Çekimleri <span>✦</span> Estetik Kareler <span>✦</span> Bursa <span>
 /* Fotoğrafları buraya ekle: foto/ klasörüne koy, dosya adını ve kategorisini yaz.
 kategori: nisan | manzara | urun | gunluk     oran: "4/5" dikey, "1/1" kare, "3/2" yatay */
 const FOTOLAR = [
-{src:"foto/1.jpg", kategori:"nisan",   yazi:"Nişan hikâyesi",   oran:"4/5"},
-{src:"foto/2.jpg", kategori:"manzara", yazi:"Manzara",          oran:"3/4"},
-{src:"foto/3.jpg", kategori:"urun",    yazi:"Ürün çekimi",      oran:"1/1"},
-{src:"foto/4.jpg", kategori:"gunluk",  yazi:"Günlük rutin",     oran:"4/5"},
-{src:"foto/5.jpg", kategori:"nisan",   yazi:"Yüzükler",         oran:"1/1"},
-{src:"foto/6.jpg", kategori:"manzara", yazi:"Sonbahar",         oran:"4/5"},
-{src:"foto/7.jpg", kategori:"urun",    yazi:"Ürün detayı",      oran:"3/4"},
-{src:"foto/8.jpg", kategori:"gunluk",  yazi:"Bir kahve molası", oran:"1/1"},
-{src:"foto/9.jpg", kategori:"nisan",   yazi:"Gün batımı",       oran:"4/5"},
-];
+{src:"nisan-4.jpg",   kategori:"nisan",   yazi:"Evet dediği an",          oran:"45/56"},
+{src:"manzara-1.jpg", kategori:"manzara", yazi:"Göl kıyısında sazlıklar", oran:"2/3"},
+{src:"nisan-1.jpg",   kategori:"nisan",   yazi:"Nişan buketi",            oran:"2/3"},
+{src:"manzara-2.jpg", kategori:"manzara", yazi:"Saat Kulesi, Bursa",      oran:"2/3"},
+{src:"nisan-2.jpg",   kategori:"nisan",   yazi:"Anı telefonu",            oran:"2/3"},
+{src:"nisan-3.jpg",   kategori:"nisan",   yazi:"Nişan süslemesi",         oran:"1080/1912"},
+]
 const KAPAK = "foto/kapak.jpg";
 
 function fill(el, src){
-const img = new Image(); img.loading="lazy"; img.alt = el.dataset.alt || "nd.kadraj fotoğraf";
+const img = new Image(); img.decoding="async"; img.alt = el.dataset.alt || "nd.kadraj fotoğraf";
 img.onload = () => { el.classList.remove("empty"); el.appendChild(img); };
-img.onerror = () => el.classList.add("empty");
+img.onerror = () => { el.classList.add("empty"); const t = el.closest(".tile"); if (t) t.remove(); };
 el.classList.add("empty"); img.src = src;
 }
 const g = document.getElementById("gallery");
