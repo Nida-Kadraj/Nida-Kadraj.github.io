@@ -70,6 +70,8 @@ section{padding:120px 5vw}
 .about p{line-height:1.9;color:#4d3a2c;margin-bottom:16px}
 .sign{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:2.2rem;color:var(--brown);margin-top:18px}
 @media(max-width:800px){.about{grid-template-columns:1fr}}
+.about .ph .slide{position:absolute;inset:0;opacity:0;transform:scale(1);transition:opacity 1.2s ease,transform 5s ease-out}
+.about .ph .slide.on{opacity:1;transform:scale(1.04)}
 .ph{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--sand),var(--latte))}
 .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1),filter .6s}
 .ph.empty::after{content:"📷";position:absolute;inset:0;display:grid;place-items:center;font-size:2rem;opacity:.35}
@@ -216,7 +218,19 @@ const t = document.createElement("div"); t.className = "tile rv"; t.dataset.k = 
 t.innerHTML = '<div class="ph" style="--r:' + f.oran + '"><div class="cap">' + f.yazi + '</div></div>';
 g.appendChild(t); fill(t.firstChild, f.src);
 });
-document.querySelectorAll(".about .ph").forEach(el => fill(el, el.dataset.src));
+(() => {
+const box = document.querySelector(".about .ph"); if (!box) return;
+const list = FOTOLAR.map(f => f.src); let i = 0, cur = null;
+function show(n){
+const img = new Image(); img.decoding = "async"; img.alt = "nd.kadraj fotoğraf"; img.className = "slide";
+img.onload = () => { box.classList.remove("empty"); box.appendChild(img); requestAnimationFrame(() => requestAnimationFrame(() => img.classList.add("on"))); if (cur) { const old = cur; old.classList.remove("on"); setTimeout(() => old.remove(), 1300); } cur = img; };
+img.onerror = () => { list.splice(n, 1); if (list.length) { i = n % list.length; show(i); } };
+img.src = list[n];
+}
+if (!list.length) return;
+box.classList.add("empty"); show(0);
+setInterval(() => { if (list.length > 1 && !document.hidden) { i = (i + 1) % list.length; show(i); } }, 4000);
+})();
 const hb = new Image(); hb.onload = () => document.getElementById("heroBg").appendChild(hb); hb.src = KAPAK;
 
 document.getElementById("filters").onclick = e => {
